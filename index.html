@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis XV Años · Janely</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ COLOR: cambia solo estas 3 líneas ============ */
+:root{
+  --main:#c97f8f;    /* color principal (flores, detalles) */
+  --dark:#7c3f4f;    /* color oscuro (textos importantes) */
+  --soft:#f8e4e6;    /* color clarito (fondos) */
+  --paper:#fbf6ef;   /* papel del sobre */
+  --gold:#c9a96a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Cormorant Garamond',serif;color:var(--dark);background:var(--soft);overflow:hidden;-webkit-tap-highlight-color:transparent}
+body.abierta{overflow:auto}
+
+/* ============ ESCENARIO DEL SOBRE ============ */
+#stage{position:fixed;inset:0;overflow:hidden;z-index:10;background:#f6dde0;transition:opacity 1s ease}
+#stage::before{content:"";position:absolute;inset:-30px;background:url(bg.jpg) center/cover;filter:blur(14px);opacity:.9}
+#stage.fuera{opacity:0;pointer-events:none}
+/* escena del mismo tamaño que tu imagen (675x1200), se ajusta a la pantalla */
+.escena{position:absolute;left:50%;top:50%;width:min(100vw,calc(100svh*675/1200));aspect-ratio:675/1200;
+  transform:translate(-50%,-50%);perspective:1400px;background:url(bg.jpg) center/100% 100%}
+.capa{position:absolute;display:block}
+.tarjeta{left:8.148%;top:34.5%;width:83.7%;height:34%;background:#fffdf9;border-radius:3px;z-index:2;
+  box-shadow:0 -4px 14px rgba(150,80,90,.15);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:9%;text-align:center;
+  transition:transform 1.3s cubic-bezier(.45,0,.2,1)}
+.tarjeta span{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.35em;color:var(--main)}
+.tarjeta b{font-family:'Great Vibes',cursive;font-weight:400;font-size:44px;color:var(--dark);line-height:1.2}
+.bolsa{left:4.444%;top:32.667%;width:91.556%;height:37.75%;z-index:3;pointer-events:none}
+.solapa{left:4.444%;top:32.917%;width:91.111%;height:32.917%;z-index:4;transform-origin:50% 1%;transform-style:preserve-3d;
+  transition:transform 1.1s cubic-bezier(.5,0,.3,1);filter:drop-shadow(0 2px 2px rgba(150,80,90,.25))}
+.solapa img{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden}
+.solapa img.atras{transform:rotateX(180deg)}
+.sello{left:35.704%;top:44.583%;width:28.741%;height:16.167%;z-index:6;transition:transform .9s cubic-bezier(.5,0,.7,1),opacity .8s;
+  filter:drop-shadow(0 3px 4px rgba(120,60,70,.25))}
+.escena.tiembla .sello{animation:tiembla .4s}
+@keyframes tiembla{25%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}75%{transform:rotate(-3deg)}}
+.escena.rompe .sello.l{transform:translate(-40%,160%) rotate(-40deg);opacity:0}
+.escena.rompe .sello.r{transform:translate(40%,160%) rotate(45deg);opacity:0}
+.escena.abre .solapa{transform:rotateX(180deg)}
+.escena.atras .solapa{z-index:1}
+.escena.sale .tarjeta{transform:translateY(-82%)}
+.pulso{left:50.07%;top:52.67%;width:34%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:2px solid #fff;z-index:7;
+  pointer-events:none;animation:pulso 2.2s ease-out infinite}
+@keyframes pulso{0%{transform:translate(-50%,-50%) scale(.85);opacity:.9}100%{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+.escena.tiembla .pulso{display:none}
+.toque{left:30%;top:42%;width:40%;height:22%;z-index:8;cursor:pointer;border-radius:50%}
+.pista{position:absolute;left:0;right:0;top:74%;text-align:center;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.4em;
+  color:#9c4f62;font-weight:500;animation:lat 1.8s ease-in-out infinite;transition:opacity .4s;pointer-events:none;z-index:8}
+.escena.tiembla .pista{animation:none;opacity:0}
+@keyframes lat{50%{opacity:.4}}
+
+/* ============ INVITACIÓN ============ */
+#invitacion{opacity:0;transition:opacity 1.2s}
+body.abierta #invitacion{opacity:1}
+section{position:relative;min-height:100svh;padding:70px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+section,section:nth-child(even){background:#f3ece6 url(encaje.jpg) center/cover no-repeat;padding:16svh 6vw}
+footer{background:#f3ece6 url(encaje.jpg) center/cover no-repeat!important;padding:16svh 20px!important}
+.portada{background:radial-gradient(ellipse at 50% 45%,#fff 0 35%,var(--soft) 100%)}
+.portada .flores-top,.portada .flores-bot{position:absolute;left:50%;width:min(520px,130vw);transform:translateX(-50%);color:var(--main)}
+.portada .flores-top{top:-40px}
+.portada .flores-bot{bottom:-40px;transform:translateX(-50%) rotate(180deg)}
+.cuadro{position:relative;z-index:2;background:rgba(255,253,249,.88);padding:44px 28px;border:1px solid var(--main);outline:1px solid var(--main);outline-offset:5px;max-width:330px;width:100%}
+.peq{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.38em;color:var(--main);text-transform:uppercase}
+.xv{font-family:'Cinzel',serif;font-size:58px;color:var(--gold);line-height:1;margin:16px 0 4px;letter-spacing:.08em}
+.nombre{font-family:'Great Vibes',cursive;font-size:clamp(52px,16vw,72px);line-height:1.05;color:var(--dark)}
+.linea{width:70px;height:1px;background:var(--main);margin:22px auto}
+.fecha-big{font-family:'Cinzel',serif;font-size:20px;letter-spacing:.25em}
+.baja{margin-top:28px;font-size:11px;letter-spacing:.4em;font-family:'Cinzel',serif;color:var(--main)}
+.baja::after{content:"↓";display:block;margin-top:6px;animation:lat 1.6s infinite}
+
+h2{font-family:'Great Vibes',cursive;font-weight:400;font-size:46px;color:var(--dark);margin-bottom:6px}
+p.texto{font-size:19px;line-height:1.55;max-width:340px;font-style:italic;color:#5a4650}
+.persona{font-size:24px;font-weight:500;margin:4px 0}
+.rol{margin-top:28px;margin-bottom:6px}
+.adorno{width:120px;color:var(--main);margin:14px auto}
+
+.cuenta{display:flex;gap:10px;margin-top:22px}
+.cuenta div{width:62px;padding:12px 0;border:1px solid var(--main);background:rgba(255,253,249,.85)}
+.cuenta b{display:block;font-family:'Cinzel',serif;font-size:26px;font-weight:500;color:var(--dark)}
+.cuenta small{font-size:11px;letter-spacing:.15em;color:var(--main);text-transform:uppercase}
+
+.lugar{width:100%;max-width:300px;padding:30px 22px;background:rgba(255,253,249,.82);border:1px solid color-mix(in srgb,var(--main) 45%,transparent);margin-top:22px}
+.lugar .hora{font-family:'Cinzel',serif;font-size:22px;color:var(--gold);margin:8px 0}
+.lugar .dir{font-size:17px;color:#6a5660;line-height:1.4}
+.btn{display:inline-block;margin-top:18px;padding:12px 26px;background:var(--main);color:#fff;text-decoration:none;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.25em;border-radius:40px;transition:transform .2s,background .2s}
+.btn:active{transform:scale(.96)}
+.btn.borde{background:transparent;color:var(--main);border:1px solid var(--main)}
+
+footer{padding:50px 20px 60px;text-align:center;background:var(--soft)}
+footer .nombre{font-size:44px}
+
+
+/* hoja de encaje: padres y padrinos */
+section.hoja{background:#f3ece6 url(encaje.jpg) center/cover no-repeat;padding:22svh 17vw}
+.hoja p.texto{color:#6b5450;max-width:290px}
+.grupo{margin-top:26px;width:100%;max-width:300px}
+.marco-oro{position:relative;width:100%}
+.marco-oro img{display:block;width:100%}
+.marco-oro span{position:absolute;left:0;right:0;top:50.3%;transform:translateY(-50%);font-family:'Great Vibes',cursive;
+  font-size:clamp(20px,6.4vw,28px);color:#9a7432;line-height:1}
+.hoja .persona{color:var(--dark);font-size:20px;line-height:1.3;margin:6px 0}
+
+
+/* portada: hoja de encaje + papel rasgado */
+section.portada.hoja{padding:12svh 6vw}
+.papel{position:relative;z-index:2;width:min(86vw,360px);padding:30px 26px 40px;text-align:center;
+  background:url(papel.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 10px rgba(120,70,70,.18))}
+.papel .peq{color:#9a5464}
+.papel .xv{color:#a8823a;margin-bottom:0}
+.anos{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.45em;color:#a8823a;margin:2px 0 6px;text-transform:uppercase}
+.apellidos{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.3em;color:#9a5464;margin-top:4px;text-transform:uppercase}
+.papel .linea{background:#9a5464}
+.papel .baja{color:#9a5464}
+.guirnalda{display:block;width:92%;margin:0 auto 6px;clip-path:inset(0 50% 0 50%);transition:clip-path 1.4s cubic-bezier(.6,0,.2,1) .3s}
+.papel.vis .guirnalda{clip-path:inset(0 0 0 0)}
+.deco{position:absolute;z-index:3;pointer-events:none}
+.lirios{top:3svh;left:-5vw;width:min(27vw,125px)}
+.rosa{bottom:6svh;right:-6vw;width:min(50vw,240px)}
+.deco.rev{transform:scale(.8) rotate(-6deg);filter:blur(5px)}
+.rosa.rev{transform:scale(.8) rotate(6deg)}
+.deco.rev.vis{transform:none;filter:none}
+.lirios{transform-origin:top left}.rosa{transform-origin:bottom right}
+.paloma{width:min(52vw,230px);margin-bottom:8px}
+.paloma.rev{transform:translate(-45vw,30px) rotate(-10deg);filter:none;transition:transform 1.6s cubic-bezier(.25,.8,.3,1),opacity 1s}
+.paloma.rev.vis{transform:none}
+
+/* aparecer / desaparecer con el scroll */
+
+.rev{opacity:0;transform:translateY(22px);filter:blur(4px);transition:opacity .9s ease,transform .9s ease,filter .9s ease}
+.rev.vis{opacity:1;transform:none;filter:none}
+.marco-oro.rev{transform:none;filter:none;transition:opacity .6s}
+.marco-oro img{clip-path:inset(0 50% 0 50%);transition:clip-path 1.2s cubic-bezier(.6,0,.2,1)}
+.marco-oro.vis img{clip-path:inset(0 0 0 0)}
+.marco-oro span{opacity:0;transition:opacity .8s .5s}
+.marco-oro.vis span{opacity:1}
+.persona.rev{transition-delay:.35s}
+.persona.rev + .persona.rev{transition-delay:.5s}
+
+.caja-rosa{width:min(90vw,390px);aspect-ratio:900/720;padding:20% 10% 6% 8%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:url(papel_rosa.png) center/100% 100% no-repeat}
+.caja-rosa.rev{filter:blur(4px) drop-shadow(0 6px 10px rgba(120,80,70,.15))}
+.caja-rosa.rev.vis{filter:drop-shadow(0 6px 10px rgba(120,80,70,.15))}
+.caja-rosa h2{font-size:38px;margin-bottom:2px}
+.caja-rosa .peq{font-size:10px;letter-spacing:.25em}
+.caja-rosa .cuenta{gap:7px;margin-top:14px}
+.caja-rosa .cuenta div{width:56px;padding:9px 0}
+.caja-rosa .cuenta b{font-size:22px}
+.caja-rosa .texto{font-size:17px}
+.caja-rosa .btn{margin-top:12px;padding:10px 20px;font-size:11px}
+.paloma{position:relative;z-index:2;margin-bottom:-10px;margin-right:18%}
+
+.caja-beige{width:min(86vw,360px);margin:0 auto;aspect-ratio:518/296;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:url(papel_beige.png) center/100% 100% no-repeat}
+.caja-beige.rev{filter:blur(4px) drop-shadow(0 6px 10px rgba(120,90,60,.15))}
+.caja-beige.rev.vis{filter:drop-shadow(0 6px 10px rgba(120,90,60,.15))}
+.caja-beige .peq{color:#8a6a4a}
+.caja-beige .nombre{font-size:52px;color:var(--dark)}
+/* papeles rasgados para los textos */
+.lugar{width:min(88vw,380px)!important;flex-shrink:0;align-self:center;max-width:none!important;aspect-ratio:900/720;padding:19% 11% 5% 8%!important;border:none!important;
+  background:url(papel_rosa.png) center/100% 100% no-repeat!important;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  filter:drop-shadow(0 6px 10px rgba(120,80,70,.15))}
+.lugar .hora{font-size:20px;margin:4px 0}
+.lugar .persona{font-size:22px;margin:0}
+.lugar .dir{font-size:16px}
+.lugar .btn{margin-top:12px;padding:10px 22px}
+.papel-beige{margin-top:24px;width:min(86vw,370px);align-self:center;max-width:none!important;padding:15% 11% 14%;color:#5e4a3c!important;
+  background:url(papel_beige.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 10px rgba(120,90,60,.15))}
+.papel-beige.rev{filter:blur(4px) drop-shadow(0 6px 10px rgba(120,90,60,.15))}
+.papel-beige.rev.vis{filter:drop-shadow(0 6px 10px rgba(120,90,60,.15))}
+.lugar.rev.vis{filter:drop-shadow(0 6px 10px rgba(120,80,70,.15))}
+
+
+
+#musica{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;border:none;background:var(--main);color:#fff;font-size:18px;z-index:20;box-shadow:0 4px 12px rgba(0,0,0,.2);display:none}
+body.abierta #musica.on{display:block}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+
+<!-- Flores reutilizables -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="flor" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <g opacity=".35"><ellipse rx="16" ry="30" transform="rotate(0) translate(0,-20)"/><ellipse rx="16" ry="30" transform="rotate(72) translate(0,-20)"/><ellipse rx="16" ry="30" transform="rotate(144) translate(0,-20)"/><ellipse rx="16" ry="30" transform="rotate(216) translate(0,-20)"/><ellipse rx="16" ry="30" transform="rotate(288) translate(0,-20)"/></g>
+        <g opacity=".6"><ellipse rx="11" ry="20" transform="rotate(36) translate(0,-13)"/><ellipse rx="11" ry="20" transform="rotate(108) translate(0,-13)"/><ellipse rx="11" ry="20" transform="rotate(180) translate(0,-13)"/><ellipse rx="11" ry="20" transform="rotate(252) translate(0,-13)"/><ellipse rx="11" ry="20" transform="rotate(324) translate(0,-13)"/></g>
+        <circle r="9" opacity=".9"/>
+      </g>
+    </symbol>
+    <symbol id="hoja" viewBox="0 0 60 24"><path d="M0 12 Q30 -6 60 12 Q30 30 0 12Z" fill="currentColor" opacity=".45"/><path d="M2 12 H56" stroke="currentColor" stroke-width=".8" opacity=".6"/></symbol>
+    <symbol id="ramo" viewBox="0 0 520 220">
+      <g>
+        <use href="#hoja" x="40" y="60" width="90" height="36" transform="rotate(-20 85 78)"/>
+        <use href="#hoja" x="380" y="60" width="90" height="36" transform="rotate(200 425 78)"/>
+        <use href="#hoja" x="140" y="140" width="80" height="32" transform="rotate(25 180 156)"/>
+        <use href="#hoja" x="300" y="140" width="80" height="32" transform="rotate(160 340 156)"/>
+        <use href="#flor" x="0" y="0" width="120" height="120"/>
+        <use href="#flor" x="400" y="0" width="120" height="120"/>
+        <use href="#flor" x="190" y="30" width="140" height="140"/>
+        <use href="#flor" x="110" y="70" width="90" height="90"/>
+        <use href="#flor" x="320" y="70" width="90" height="90"/>
+        <use href="#flor" x="60" y="-30" width="70" height="70"/>
+        <use href="#flor" x="390" y="-30" width="70" height="70"/>
+      </g>
+    </symbol>
+    <symbol id="divisor" viewBox="0 0 120 20"><path d="M0 10H45M75 10H120" stroke="currentColor" stroke-width="1"/><use href="#flor" x="50" y="0" width="20" height="20"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ SOBRE ============ -->
+<div id="stage">
+  <div class="escena" id="escena">
+    <div class="capa tarjeta"><span>MIS XV</span><b id="miniNombre">Janely</b></div>
+    <img class="capa bolsa" src="pocket.png" alt="">
+    <div class="capa solapa"><img src="flap.png" alt=""><img class="atras" src="flap_back.png" alt=""></div>
+    <img class="capa sello l" src="seal_l.png" alt="">
+    <img class="capa sello r" src="seal_r.png" alt="">
+    <div class="capa pulso"></div>
+    <div class="capa toque" id="sobre" role="button" aria-label="Abrir invitación" tabindex="0"></div>
+    <div class="pista">TOCA EL SELLO</div>
+  </div>
+</div>
+
+<!-- ============ INVITACIÓN ============ -->
+<audio id="cancion" src="musica.mp3" loop preload="auto"></audio>
+<button id="musica" aria-label="Pausar música">♪</button>
+
+<main id="invitacion">
+  <section class="portada hoja">
+    <img class="deco lirios rev" src="lirios.png" alt="">
+    <div class="papel rev">
+      <img class="guirnalda" src="guirnalda.png" alt="">
+      <div class="peq">Con la bendición de Dios<br>te invito a celebrar mis</div>
+      <div class="xv">XV</div>
+      <div class="anos">años</div>
+      <div class="nombre" data-k="nombre"></div>
+      <div class="apellidos" data-k="apellidos"></div>
+      <div class="linea"></div>
+      <div class="fecha-big" data-k="fechaCorta"></div>
+      <div class="baja">DESLIZA</div>
+    </div>
+    <img class="deco rosa rev" src="rosa.png" alt="">
+  </section>
+
+  <section class="hoja">
+    <p class="texto rev" data-k="frase"></p>
+    <div class="grupo">
+      <div class="marco-oro rev"><img src="marco.png" alt=""><span>Mis padres</span></div>
+      <div class="persona rev" data-k="papa"></div>
+      <div class="persona rev" data-k="mama"></div>
+    </div>
+    <div class="grupo">
+      <div class="marco-oro rev"><img src="marco.png" alt=""><span>Mi padrino</span></div>
+      <div class="persona rev" data-k="padrino"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="caja-rosa rev">
+    <h2>Fecha</h2>
+    <div class="peq" data-k="fechaLarga"></div>
+    <div class="cuenta">
+      <div><b id="d">0</b><small>Días</small></div>
+      <div><b id="h">0</b><small>Horas</small></div>
+      <div><b id="m">0</b><small>Min</small></div>
+      <div><b id="s">0</b><small>Seg</small></div>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="rev">¿Dónde?</h2>
+    <div class="lugar rev">
+      <div class="peq">Recepción</div>
+      <div class="hora" data-k="fiestaHora"></div>
+      <div class="persona" data-k="fiestaLugar"></div>
+      <div class="dir" data-k="fiestaDir"></div>
+      <a class="btn" id="fiestaMapa" target="_blank" rel="noopener">VER UBICACIÓN</a>
+    </div>
+  </section>
+
+  <section class="hoja">
+    <div class="grupo">
+      <div class="marco-oro rev"><img src="marco.png" alt=""><span>Regalos</span></div>
+    </div>
+    <p class="texto rev papel-beige">Tu presencia es mi mejor regalo. Si deseas tener un detalle conmigo, con mucho cariño recibiré un obsequio o un sobre en la lluvia de sobres.</p>
+  </section>
+
+  <section>
+    <img class="paloma rev" src="paloma.png" alt="">
+    <div class="caja-rosa rev">
+    <h2>Confirma tu asistencia</h2>
+    <p class="texto">Será un honor contar con tu presencia</p>
+    <a class="btn" id="rsvp" target="_blank" rel="noopener">CONFIRMAR POR WHATSAPP</a>
+    </div>
+  </section>
+
+  <footer>
+  <div class="caja-beige rev">
+    <div class="peq">Te espero</div>
+    <div class="nombre" data-k="nombre"></div>
+  </div>
+</footer>
+</main>
+
+<script>
+/* ============ DATOS: edita aquí ============ */
+const DATOS = {
+  nombre:     "Janely",
+  apellidos:  "Turijan Miguel",
+  fecha:      "2026-12-19T15:00:00-06:00",   // 3:00 PM hora del centro de México
+  fechaCorta: "19 · 12 · 2026",
+  fechaLarga: "Sábado 19 de diciembre de 2026",
+  frase:      "Hay momentos que se esperan toda la vida. Hoy quiero compartir contigo uno de los más especiales de la mía.",
+  papa:       "Adriana Miguel Martínez",
+  mama:       "Cristian Turijan Hernández",
+  padrino:    "Eduardo Hernández Martínez",
+  fiestaHora: "3:00 PM",
+  fiestaLugar:"Salón Lima",
+  fiestaDir:  "Calle Juárez entre Josefina",
+  fiestaMapa: "https://maps.app.goo.gl/hrvBpzuU9o7xaoqJA",
+  whatsapp:   "527352159703",                // 52 + número a 10 dígitos
+};
+
+document.querySelectorAll('[data-k]').forEach(el => { const v = DATOS[el.dataset.k]; if (v) el.textContent = v; else el.remove(); });
+document.getElementById('miniNombre').textContent = DATOS.nombre;
+document.getElementById('fiestaMapa').href = DATOS.fiestaMapa;
+document.getElementById('rsvp').href = 'https://wa.me/' + DATOS.whatsapp + '?text=' +
+  encodeURIComponent('¡Hola! Confirmo mi asistencia a los XV años de ' + DATOS.nombre + ' 💕');
+
+/* ============ ANIMACIÓN DE APERTURA ============ */
+const sobre = document.getElementById('sobre');
+let abierto = false;
+const escena = document.getElementById('escena');
+/* música: empieza al tocar el sello (los celulares solo dejan sonar audio después de un toque) */
+const cancion = document.getElementById('cancion'), btnMusica = document.getElementById('musica');
+cancion.addEventListener('canplay', () => btnMusica.classList.add('on'));
+function ponerMusica(){ cancion.volume = 0; cancion.play().then(() => {
+  let v = 0; const sube = setInterval(() => { v = Math.min(1, v + .05); cancion.volume = v; if (v >= 1) clearInterval(sube); }, 120);
+}).catch(() => {}); }
+btnMusica.addEventListener('click', () => {
+  if (cancion.paused) { cancion.play().catch(() => {}); btnMusica.textContent = '♪'; btnMusica.style.opacity = 1; }
+  else { cancion.pause(); btnMusica.textContent = '✕'; btnMusica.style.opacity = .7; }
+});
+function abrir(){
+  if (abierto) return; abierto = true;
+  ponerMusica();
+  const paso = (cls, ms) => setTimeout(() => escena.classList.add(cls), ms);
+  paso('tiembla', 0);     // 1. el sello tiembla
+  paso('rompe', 400);     // 2. el sello se parte y cae
+  paso('abre', 800);      // 3. se abre la solapa
+  paso('atras', 1350);    //    (la solapa pasa detrás de la tarjeta)
+  paso('sale', 1900);     // 4. sale la tarjeta del sobre
+  setTimeout(() => {      // 5. aparece la invitación
+    document.body.classList.add('abierta');
+    document.getElementById('stage').classList.add('fuera');
+    window.scrollTo(0,0);
+  }, 3500);
+}
+sobre.addEventListener('click', abrir);
+escena.addEventListener('click', abrir);
+sobre.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); } });
+
+/* aparecer al hacer scroll */
+// aparece al entrar a la pantalla y se desvanece al salir (y vuelve a aparecer al regresar)
+const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('vis', e.isIntersecting)), {threshold:.15, rootMargin:'-6% 0px -6% 0px'});
+document.querySelectorAll('.rev').forEach(el => io.observe(el));
+
+/* cuenta regresiva */
+const meta = new Date(DATOS.fecha).getTime();
+function tick(){
+  let r = Math.max(0, meta - Date.now());
+  const d = Math.floor(r/864e5); r -= d*864e5;
+  const h = Math.floor(r/36e5);  r -= h*36e5;
+  const m = Math.floor(r/6e4);   r -= m*6e4;
+  const s = Math.floor(r/1e3);
+  document.getElementById('d').textContent = d;
+  document.getElementById('h').textContent = h;
+  document.getElementById('m').textContent = m;
+  document.getElementById('s').textContent = s;
+}
+tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
